@@ -5217,6 +5217,22 @@ function sendTestResultsToStoryline(status) {
 }
 
 
+// Add this to your script.js in the web object
+window.addEventListener("message", function(event) {
+    if (event.data.type === "userInfo") {
+        const learnerName = event.data.learnerName;
+        const learnerID = event.data.learnerID;
+
+        // Use the received data
+        console.log("User Name:", learnerName);
+        console.log("User ID:", learnerID);
+
+        // Optionally, store it in localStorage or use it directly
+        localStorage.setItem("learnerName", learnerName);
+        localStorage.setItem("learnerID", learnerID);
+    }
+});
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm");
