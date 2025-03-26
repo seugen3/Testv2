@@ -5205,6 +5205,7 @@ let timerInterval; // To store the interval
 let timeRemaining = 30 * 60; // 30 minutes in seconds
 let incorrectAnswers = 0; // Track incorrect answers
 const maxIncorrectAnswers = 2; // Allow up to 2 incorrect answers
+let score;
 
 // Function to send results to Storyline
 function sendTestResultsToStoryline(status) {
@@ -5216,22 +5217,6 @@ function sendTestResultsToStoryline(status) {
     console.log(status);
 }
 
-
-// Add this to your script.js in the web object
-window.addEventListener("message", function(event) {
-    if (event.data.type === "userInfo") {
-        const learnerName = event.data.learnerName;
-        const learnerID = event.data.learnerID;
-
-        // Use the received data
-        console.log("User Name:", learnerName);
-        console.log("User ID:", learnerID);
-
-        // Optionally, store it in localStorage or use it directly
-        localStorage.setItem("learnerName", learnerName);
-        localStorage.setItem("learnerID", learnerID);
-    }
-});
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -5338,6 +5323,7 @@ function showResults() {
     // Determine pass/fail status
     const passThreshold = 90; // Adjust threshold if needed
     const status = score >= passThreshold ? 'Passed' : 'Failed';
+    console.log(status)
 
     // Save the result to the user's attempts
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -5389,6 +5375,8 @@ function showResults() {
     questionsPage.classList.add('hidden');
     resultsPage.classList.remove('hidden');
     console.log("Results page should now be visible.");
+    sendTestResultsToStoryline(status);
+    console.log(`Sent the status ${status} to Storyline `)
 }
 
 
